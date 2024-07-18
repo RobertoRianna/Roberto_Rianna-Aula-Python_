@@ -1,117 +1,98 @@
-#OBBIETTIVO: Utilizzare pandas e numpy per esplorare, pulire, trasformare e analizzare un daatset
-#di clienti della compagnia di telecomunicazioni. L'esercizio mira a costruire un modello predittivo
-#di base per la churn e scoprire correlazioni tra vari attributi del cliente e la loro fedeltà.
-
-import pandas as pd
-import numpy as np
-
-
-id_cliente = np.random.randint(0,10000,size=100)
-età = np.random.randint(20,70,size=100)
-durata_allenamento = ["1 mese","2 mesi","3 mesi","4 mesi","5 mesi","6 mesi","7 mesi","8 mesi","9 mesi","10 mesi","11 mesi","12 mesi"]
-tariffa_mensile = [10,20,30,40,50]
-dati_consumati = np.random.randint(0,30,size= 100)
-servizio_clienti_contatti = np.random.randint(0,20,size = 100)
-churn = ["sì","no"]
+import modulo_esercizio_finale as ES1
+#TEMPO SUDDIVISIONE ESERCIZIO
+#PARTE 1 = PREVISTA:25 MINUTI/EFFETTIVA: 30 MINUTI
+#PARTE 2 = PREVISTA =35 MINUTI/EFFETTIVA 30 MINUTI
+#PARTE 3 = PREVISTA=45 MINUTI/EFFETTIVA 45 MINUTI
+#PARTE 4 = PREVISTA=60 MINUTI/ EFFETTIVA 30 MINUTI
+#DIVISIONE IN MODULO,CREAZIONE MENU = EFFETTIVA 20 MINUTI
 
 
-
-
-class Telecomunicazioni:
-    def __init__(self,id_cliente,età,durata_allenamento,tariffa_mensile,dati_consumati,servizio_clienti_contatti,churn):
-        self.id_cliente = id_cliente
-        self.età = età
-        self.durata_allenamento = durata_allenamento
-        self.tariffa_mensile = tariffa_mensile
-        self.dati_consumati = dati_consumati
-        self.servizio_clienti_contatti = servizio_clienti_contatti
-        self.churn = churn
-       
-    def crea(self):
-        data = {"id_cliente": id_cliente,
-                "età": età,
-                "durata_allenamento":np.random.choice(durata_allenamento,size=100),
-                "tariffa_mensile": np.random.choice(tariffa_mensile,size=100),
-                "dati_consumati": dati_consumati,
-                "servizio_clienti_contatti": servizio_clienti_contatti,
-                "churn": np.random.choice(churn,size=100)
-        }
-        self.df = pd.DataFrame(data)
-        print(self.df)
-        return self.df
-    
-    def file(self):
-        self.df.to_csv("Esercizio_finale.csv")
-    
-    def info(self):
-        informazioni = self.df.info()
-        print (informazioni)
-        return informazioni
-    
-    def describe(self):
-        descrizione = self.df.describe()
-        print(descrizione)
-        return descrizione
-    
-    def value_counts(self):
-        valore = self.df.value_counts()
-        print(valore)
-        return valore
-    
-    def righe_mancanti(self):
-        self.controllo_righe = True
-        self.df_righe_mancanti = self.df[self.df.isnull().any(axis=1)]
-        if len(self.df_righe_mancanti)>0:
-            print(self.df_righe_mancanti)
+def menù():                                                                                         
+    controllo = True                                                                                 
+    while controllo:                                                                                 
+        print("Menù")
+        print("Crea un dataframe (1) ")
+        print("Salva il datafram su un file (2) ")
+        print("Informazioni del dataframe (3) ")                                                             
+        print("Descrizione del dataframe (4) ")
+        print("Value counts (5) ")
+        print("Controlla se ci sono righe vuote (6)")
+        print("Aggiungi colonna: Costa per GB (7)")
+        print("Controlla la relazione tra vari elementi (8)")
+        print("Inìdentifica possibili correlazioni (9)")
+        print("Converti la colonna churn in formato numerico (10)")
+        print("Normalizzazione (11)")
+        print("Exit (12) ")
+        utente = input("Inserisci l'operazione da fare: ")                                        
+        df = ES1.Telecomunicazioni(1,30,"1 mese",10,20,15,"sì")
+        creazione = df.crea()
+        salvattaggio = df.file()
+        informazioni = df.info()
+        descrizione = df.describe()
+        valore = df.value_counts()
+        righe = df.righe_mancanti()
+        aggiungi = df.aggiungi_colonne()
+        relazioni_val = df.relazioni()
+        corr = df.correlazioni()
+        convertitore = df.convertire_colonna()
+        norma = df.normalizzazione()
+        if utente == "1":
+            print(creazione)
+        elif utente == "2":
+            try:
+                print(salvattaggio)
+            except:
+                print("Errore sul file")
+        elif utente == "3":
+            try:
+                print(informazioni)
+            except:
+                print("Dataframe non trovato")
+        elif utente == "4":
+            try:
+                print(descrizione)
+            except:
+                print("dataframe non trovato")
+        elif utente == "5":
+            try:
+                print(valore)
+            except:
+                print("dataframe non trovato") 
+        elif utente == "6":
+            try:
+                print(righe)
+            except:
+                print("dataframe non trovato")  
+        elif utente == "7":
+            try:
+                print(aggiungi)
+            except:
+                print("dataframe non trovato") 
+        elif utente == "8":
+            try:
+                print(relazioni_val)
+            except:
+                print("dataframe non trovato")    
+        elif utente == "9":
+            try:
+                print(corr)
+            except:
+                print("dataframe non trovato")  
+        elif utente == "10":
+            try:
+                print(convertitore)
+            except:
+                print("dataframe non trovato") 
+        elif utente =="11":
+            try:
+                print(norma)   
+            except:
+                print("Dataframe non trovato")  
+        elif utente == "12":
+            print("Arrivederci!")
+            break
         else:
-            print("Nessuna riga mancante")
-    
-    
-    def aggiungi_colonne(self):                                                                  
-        self.df['Costp_per_GB'] = self.df['tariffa_mensile'] / self.df['dati_consumati'] 
-        print(self.df)
-        return self.df
-    
-    def relazioni(self):
-        gruppo1 = self.df.groupby("churn").agg("età")
-        gruppo2 = self.df.groupby("churn").agg("durata_allenamento")
-        gruppo3= self.df.groupby("churn").agg("tariffa_mensile")
-        print(gruppo1)
-        print(gruppo2)
-        print(gruppo3)
-                         
-    def correlazioni(self):
-        selezione_variabili = ['età', 'dati_consumati', 'tariffa_mensile']
-        correlazioni_variabili = self.df[selezione_variabili]
-        correlazioni_variabili = correlazioni_variabili.corr()
-        print (correlazioni_variabili)
+            print("Comando sbagliato!")
 
-    
-    def convertire_colonna(self):
-        convertita = self.df['churn'] = self.df['churn'].map({'no': 0, 'sì': 1})
-        print(convertita)
-        return convertita
-        
-    def normalizzazione(self):
-        numeric_columns = ["età","tariffa_mensile", "dati_consumati"]             
-        self.df[numeric_columns] = (self.df[numeric_columns] - self.df[numeric_columns].min()) / (self.df[numeric_columns].max() - self.df[numeric_columns].min()) 
-        print(self.df)
+menù()
 
-
-
-
-
-
-
-self = Telecomunicazioni
-Telecomunicazioni.crea(self)
-Telecomunicazioni.file(self)
-Telecomunicazioni.info(self)
-Telecomunicazioni.describe(self)
-Telecomunicazioni.value_counts(self)
-Telecomunicazioni.righe_mancanti(self)
-Telecomunicazioni.aggiungi_colonne(self)
-Telecomunicazioni.relazioni(self)
-Telecomunicazioni.correlazioni(self)
-Telecomunicazioni.convertire_colonna(self)
-Telecomunicazioni.normalizzazione(self)
