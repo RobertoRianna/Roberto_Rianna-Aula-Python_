@@ -50,6 +50,15 @@ def visualizza_dati(df_visitatori):
     plt.show()                                                              #mostra output
 
 
+def secondo_grafico(media_visitatori):
+    plt.figure(figsize=(12,6))                                              #larghezza 12 pollici e altezza 6
+    plt.plot(media_visitatori.index,media_visitatori["Numero di visitatori"], label= "Media Numero di Visitatori giornalieri")
+    plt.xlabel("Data")                                                      #asse x
+    plt.ylabel("Media numero di visitatori giornalieri")                    #asse y
+    plt.title("Visulizzazione dei dati sulla media")                        #aggiunge un titolo
+    plt.legend()                                                            #aggiunge un etichetta
+    plt.show()                                 
+
 
 
 
@@ -60,6 +69,7 @@ visitatori_serie,serie= genera_dati()
 df_visitatori = creazione_dataframe(visitatori_serie,serie)
 media_visitatori = analisi_dei_dati(df_visitatori)
 grafico = visualizza_dati(df_visitatori)
+grafico_2 = secondo_grafico(media_visitatori)
 
 
 
